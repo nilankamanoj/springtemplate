@@ -3,10 +3,10 @@ package src.main.java.com.boot.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import src.main.java.com.boot.model.User;
 import src.main.java.com.boot.repository.UserRepository;
 
@@ -17,20 +17,15 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(path="/add")
-    public @ResponseBody String addNewUser (@RequestParam String name
-            , @RequestParam String email) {
-
-
-        User n = new User();
-        n.setName(name);
-        n.setEmail(email);
-        userRepository.save(n);
-        return "Saved";
-    }
 
     @RequestMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @RequestMapping(value = "/adduser", method = RequestMethod.POST)
+    public ResponseEntity<User> update(@RequestBody User user) {
+        userRepository.save(user);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 }
