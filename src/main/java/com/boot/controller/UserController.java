@@ -12,18 +12,18 @@ import src.main.java.com.boot.repository.UserRepository;
 
 
 @Controller
-@RequestMapping(path="/users")
+@RequestMapping(path="/user")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
 
 
-    @RequestMapping(path="/all")
+    @RequestMapping(path="/")
     public @ResponseBody Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    @RequestMapping(value = "/adduser", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     public ResponseEntity<User> update(@RequestBody User user) {
         userRepository.save(user);
         return new ResponseEntity<User>(user, HttpStatus.OK);
